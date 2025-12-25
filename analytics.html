@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналитические материалы - ООО МОП КОМПЛЕКС-1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+
+    <div id="main-content">
+        <header class="bg-primary text-white py-3 text-center">
+            <div class="container">
+                <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
+                    <a href="index.html" class="d-inline-block mb-3 mb-md-0" aria-label="КОМПЛЕКС 1">
+                        <img src="photo/ЛОГО.png" alt="КОМПЛЕКС 1" style="height:100px; width:auto;">
+                    </a>
+                    <div class="text-center text-md-start">
+                        <h1 class="mb-1 fs-3">ООО «Многоотраслевое предприятие КОМПЛЕКС-1»</h1>
+                        <p class="lead mb-0 fs-5">Аналитические материалы и статистика</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Главная</a></li>
+                        <li class="nav-item"><a class="nav-link" href="uslugi.html">Услуги</a></li>
+                        <li class="nav-item"><a class="nav-link" href="zakazi.html">Заказы</a></li>
+                        <li class="nav-item"><a class="nav-link" href="sklad.html">Склад</a></li>
+                        <li class="nav-item"><a class="nav-link" href="otchet.html">Отчёты</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container my-5">
+            <h2 class="mb-4">Аналитические материалы</h2>
+            
+            <p>Здесь представлена статистика по выполненным работам за последние годы, включая количество объектов и финансовые показатели компании.</p>
+
+            <h3 class="mt-5">Статистика по объектам (количество проектов по годам)</h3>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <canvas id="objectsChart" height="200"></canvas>
+                </div>
+            </div>
+
+            <h3 class="mt-5">Финансовые показатели (выручка в млн руб. по годам)</h3>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <canvas id="financeChart" height="200"></canvas>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn btn-primary mt-5">Вернуться на главную</a>
+        </div>
+
+        <footer class="bg-primary text-white text-center py-3">
+            <p class="mb-0">&copy; 2025 ООО «Многоотраслевое предприятие КОМПЛЕКС-1» | Тел: 8 800 444-67-01 | Россия, Ростовская обл., г. Азов, ул. Дружбы, 48</p>
+        </footer>
+    </div>
+
+    <script>
+        const ctxObjects = document.getElementById('objectsChart').getContext('2d');
+        const objectsChart = new Chart(ctxObjects, {
+            type: 'bar',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                datasets: [{
+                    label: 'Количество объектов',
+                    data: [45, 62, 78, 95, 112, 130],
+                    backgroundColor: '#0d6efd',
+                    borderColor: '#0d6efd',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Количество проектов'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        const ctxFinance = document.getElementById('financeChart').getContext('2d');
+        const financeChart = new Chart(ctxFinance, {
+            type: 'bar',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                datasets: [{
+                    label: 'Выручка (млн руб.)',
+                    data: [120, 165, 210, 280, 350, 420],
+                    backgroundColor: '#ffc107',
+                    borderColor: '#ffc107',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Выручка, млн руб.'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

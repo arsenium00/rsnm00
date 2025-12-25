@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система учёта услуг - ООО МОП КОМПЛЕКС-1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        html, body { height: 100%; }
+        body { display: flex; flex-direction: column; }
+        .main-content { flex: 1 0 auto; }
+        footer { flex-shrink: 0; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <header class="bg-primary text-white py-3 text-center">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
+                <a href="index.html" class="d-inline-block mb-3 mb-md-0" aria-label="КОМПЛЕКС 1">
+                    <img src="photo/ЛОГО.png" alt="КОМПЛЕКС 1" style="height:100px; width:auto;">
+                </a>
+                <div class="text-center text-md-start">
+                    <h1 class="mb-1 fs-3">ООО «Многоотраслевое предприятие КОМПЛЕКС-1»</h1>
+                    <p class="lead mb-0 fs-5">Система внутреннего учёта услуг по обустройству дорог</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="uslugi.html">Услуги</a></li>
+                    <li class="nav-item"><a class="nav-link" href="zakazi.html">Заказы</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="sklad.html">Склад</a></li>
+                    <li class="nav-item"><a class="nav-link" href="otchet.html">Отчёты</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5 main-content">
+        <section id="warehouse">
+            <h2 class="mb-4">Склад</h2>
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h4 class="mb-4">Форма обновления склада</h4>
+                    <form id="material-form" class="row g-3">
+                        <div class="col-md-6">
+                            <select class="form-select" id="material-name" required>
+                                <option value="">Выберите материал</option>
+                                <option value="Дорожные знаки">Дорожные знаки (шт)</option>
+                                <option value="Краска для разметки">Краска для разметки (л)</option>
+                                <option value="Термопластик">Термопластик (кг)</option>
+                                <option value="Ограждения">Ограждения (м)</option>
+                                <option value="Светофоры">Светофоры (комплекты)</option>
+                                <option value="Катафоты">Катафоты (шт)</option>
+                                <option value="Светодиодные маячки">Светодиодные маячки (шт)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" min="0" class="form-control" id="material-quantity" placeholder="Количество" required>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Обновить количество</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <h4 class="mb-4">Состояние склада</h4>
+            <div class="table-responsive mb-5">
+                <table class="table table-hover" id="materials-table">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Материал</th>
+                            <th>Количество на складе</th>
+                            <th>Зарезервировано под заказы</th>
+                            <th>Доступно</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <footer class="bg-primary text-white text-center py-3">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 ООО «Многоотраслевое предприятие КОМПЛЕКС-1» | Тел: 8 800 444-67-01 | Россия, Ростовская обл., г. Азов, ул. Дружбы, 48 | <a href="privacy.html" class="text-white text-decoration-underline">Политика конфиденциальности</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        const serviceToMaterial = {
+            "Установка дорожных знаков": "Дорожные знаки",
+            "Нанесение разметки": "Краска для разметки",
+            "Установка ограждений": "Ограждения",
+            "Монтаж светофоров": "Светофоры",
+            "Установка катафотов": "Катафоты",
+            "Монтаж маячков": "Светодиодные маячки",
+            "Проектирование АСУДД": null
+        };
+
+        function loadStock() {
+            return JSON.parse(localStorage.getItem('stock')) || {};
+        }
+
+        function loadReserved() {
+            return JSON.parse(localStorage.getItem('reserved')) || {};
+        }
+
+        function saveStock(stock) {
+            localStorage.setItem('stock', JSON.stringify(stock));
+        }
+
+        function saveReserved(reserved) {
+            localStorage.setItem('reserved', JSON.stringify(reserved));
+        }
+
+        function updateTable() {
+            const stock = loadStock();
+            const reserved = loadReserved();
+            const tbody = document.querySelector('#materials-table tbody');
+            tbody.innerHTML = '';
+
+            Object.keys(stock).sort().forEach(material => {
+                const totalStock = stock[material] || 0;
+                const totalReserved = reserved[material] || 0;
+                const available = totalStock - totalReserved;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${material}</td>
+                    <td>${totalStock}</td>
+                    <td>${totalReserved}</td>
+                    <td class="${available < 0 ? 'text-danger' : available < 10 ? 'text-warning' : ''}">${available}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.getElementById('material-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('material-name').value;
+            const qty = parseInt(document.getElementById('material-quantity').value);
+
+            if (!name) return;
+
+            const stock = loadStock();
+            stock[name] = qty;
+            saveStock(stock);
+            updateTable();
+
+            this.reset();
+        });
+
+        updateTable();
+    </script>
+</body>
+</html>
